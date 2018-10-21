@@ -16,18 +16,17 @@ clients = [
 
 def create_client(client):
 	global clients
-	if client not in clients:
+	if get_client_by_name(client.get('name')) == None:
 		clients.append(client)
 	else:
 		print("Client already in the client's list")
 	return clients
 
-def update_client(client, new_client):
+def update_client(client_id, new_client):
 	global clients
-
-	if client in clients:
-		index = clients.index(client)
-		clients[index] =  new_client
+	
+	if client_id != None:
+		clients[client_id] =  new_client
 		return clients
 	else:
 		print('Client not exist')
@@ -44,23 +43,23 @@ def list_client():
 			)
 		)
 
-def search_client(client_name):
+def search_client(client_id):
 	global clients
-	for client in clients:
-		if client != client_name:
-			continue
-		else:
-			return True
+	if client_id == None:
+		return False
+	else:
+		return True
 
-def delete_client(client):
+def delete_client(client_id):
 	global clients
-	if client in clients:
-		clients.remove(client)
+	if client_id != None:
+		del clients[client_id]
 	else:
 		print('Client not exist')
 
 
 def _get_client_index():
+	global clients
 	client_name =  None
 
 	while not client_name:
@@ -71,8 +70,19 @@ def _get_client_index():
 
 	if not client_name:
 		sys.exit()
+	else:
+		return get_client_by_name(client_name)
+		
 
-	return client_name
+def get_client_by_name(client_name):
+	global clients
+	for idx, client in enumerate(clients):
+		print("----")
+		print(client.get('name'))
+		print(client_name)
+		if client.get('name') == client_name:
+	 		return idx
+	return None
 
 
 def get_client_field(field_name):
@@ -112,13 +122,13 @@ if __name__ == '__main__':
 		client = get_client()
 		create_client(client)
 	elif acction == 'D':
-		client = _get_client_index()
-		delete_client(client)
+		client_id = _get_client_index()
+		delete_client(client_id)
 	elif acction == 'U':
-		client = _get_client_index()
-		print('What is the new client?')
-		new_client = input()
-		update_client(client, new_client)
+		client_id = _get_client_index()
+		print('----------New Data----------')
+		new_client = get_client()
+		update_client(client_id, new_client)
 	elif acction == 'S':
 		client = _get_client_index()
 		search = search_client(client)
