@@ -59,7 +59,7 @@ def update_client(client_id, new_client):
 def list_client():
 	global clients
 	print('uuid | name | age | company | job')
-	print("*"*50)
+	print("*"*40)
 	for idx, client in enumerate(clients):		
 		print('{uuid} | {name} | {age} | {company} | {job}'.format(
 			uuid=idx,
